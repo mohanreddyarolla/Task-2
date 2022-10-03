@@ -1,0 +1,409 @@
+body
+{
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 0px 40px;
+}
+
+a{
+    text-decoration: none;
+    color:black;
+}
+input
+{
+    border:none;
+}
+
+#media-query-profile/* , #closs-filter-icon, #open-filter-icon */
+{
+    display: none;
+}
+
+/*....................... Header.................... */
+
+/* #header
+{
+    position:fixed;
+} */
+
+header
+{
+    /* position: -webkit-sticky; */
+    position: sticky;
+    top:0px;
+    display: flex;
+
+    justify-content: space-between;
+    border-bottom:solid rgba(128, 128, 128, 0.342) 2px;
+    height:100px;
+    background-color: white;
+}
+
+#company
+{
+    display: flex;
+    gap:10px;
+    padding-top: 15px;
+
+    /* border:solid; */
+}
+#title
+{
+    line-height: 3px;
+}
+
+#title p
+{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.blue-color p, #profile p
+{
+    font-weight: bold;
+}
+
+#profile
+{
+    font-size: 20px;
+    /* border:solid; */
+}
+
+#profile img
+{
+    height:60px;
+    padding-left:10px;
+    /* border:solid; */
+}
+
+#logo img
+{
+    height:70px;
+    /* position:absolute; */
+    padding-top: 20px;
+    /* border:solid; */
+}
+
+
+.blue-color, #title .blue-color
+{
+    color:rgba(0,177,252,255);
+    font-size:25px ;
+}
+
+
+/* ...........Filters............... */
+
+
+#departments , #offices , #job-titles
+{
+    font-size:13px;
+}
+#departments a, #offices a, #job-titles a
+{
+    display: block;
+    padding:0px 5px;
+}
+#all-filters
+{
+    /* border:solid; */
+    padding:0px;
+    margin:0px;
+    width:auto;
+}
+#filters
+{
+   
+    /* position: fixed;
+    background-color: aliceblue; */
+    height:400px;
+    min-width:250px;
+    
+    overflow: scroll;
+    scroll-margin-block: none;
+    /* border: solid; */
+}
+
+#filters::-webkit-scrollbar {
+    display: none;
+}
+
+/* ...........Content ............... */
+
+#content
+{
+    display:flex;
+    
+    margin-top:20px;
+}
+
+
+
+#home
+{
+    width:100%;
+    padding-top:15px;
+    /* border: solid; */
+}
+
+#alphabert-search
+{
+    margin:0px;
+    padding: 0px;
+}
+.alpha-icon
+{
+    /* background-color: blueviolet; */
+}
+
+
+#alphabert-search .alpha-button, #open-filter-icon button, #closs-filter-icon button
+{
+    height:32px;
+    width:32px;
+    margin:1px;
+    background: rgba(0,177,252,255);
+    color:white;
+    border:none;
+    font-size: 15px;
+
+}
+
+#search-and-add
+{
+    display: flex;
+    justify-content: space-between;
+    /* border:solid; */
+
+}
+
+#search-and-add #search
+{
+    display: flex;
+    gap:20px;
+    /* border:solid green; */
+}
+
+#search-and-add #search #input
+{
+    border:solid rgba(128, 128, 128, 0.342) 2px;
+    height:30px;
+    padding-left: 5px;
+    margin:auto auto;
+    border-radius: 5px;
+    width:200px;
+}
+
+#clear-btn
+{
+    height:35px;
+    width:80px;
+    margin:auto auto;
+    margin-left:20px;
+    background-color: rgba(105,186,0,255);
+    color:white;
+    border-radius: 5px;
+    border: none;
+}
+
+#filter-by
+{
+    margin:auto auto;
+    font-weight: bold;
+    font-size:15px;
+
+}
+#filter-by label
+{
+    padding-right: 10px;
+}
+
+#filter-by #select-employee
+{
+    height:35px;
+    width: 150px;
+    border: solid rgba(128, 128, 128, 0.342) 2px;
+}
+
+#add-employee
+{
+    margin:auto 0px;
+}
+
+#add-employee button
+{
+    height:35px;
+    width:fit-content;
+    background-color: rgba(0,177,252,255);
+    color:white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+}
+
+.note
+{
+    font-size: 13px;
+}
+
+/* ..............employee-dashboard............... */
+#employee-dashboard
+{
+    display: flex;
+    flex-wrap: wrap;
+    border:solid rgba(128, 128, 128, 0.342) 2px;
+    padding-left:5px;
+
+    height:300px;
+    overflow: scroll;
+    scroll-margin-block: none;
+    align-content: flex-start;
+}
+
+#employee-dashboard::-webkit-scrollbar {
+    display: none;
+}
+
+.employee-card
+{
+    display: flex;
+    margin:10px 5px;
+    gap:10px;
+    height:70px;
+    width:215px;
+    /* border: solid green; */
+    background-color: rgba(128, 128, 128, 0.221);
+
+}
+.employee-card .photo
+{
+    margin:10px 10px;
+    /* border:solid; */
+
+}
+.employee-card .photo img
+{
+    height:50px;
+    width:50px;
+
+}
+
+.employee-card .employee-data
+{
+    font-size: 11px;
+    line-height: 1px;
+}
+
+.employee-data .socail
+{
+    display:flex;
+    gap:5px;
+}
+
+.employee-data .socail i
+{
+    color:rgba(128, 128, 128, 0.799);
+}
+
+@media (max-width:1080px)
+{
+    #search-and-add
+    {
+        display: block;
+    }
+    #add-employee
+    {
+        margin-top: 10px;
+    }
+    .blue-color, #profile
+    {
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    #profile
+    {
+        font-size: 20px;
+    }
+}
+
+@media (max-width:905px)
+{
+    #logo img
+    {
+        height:50px;
+        padding-top: 20px;
+    }
+    
+    .blue-color, #profile
+    {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    #profile
+    {
+        font-size: 20px;
+    }
+    #profile img
+    {
+        height:50px;
+    }
+}
+
+@media (max-width:810px)
+{
+   
+    #title
+    {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width:620px)
+{
+    #normal-profile
+    {
+        display: none;
+    }
+
+    #media-query-profile
+    {
+        display: flex;
+        margin-top: 15px;
+    }
+    #media-query-profile p 
+    {
+        line-height: 3px;
+        font-size: 15px;
+    }
+    #logo img
+    {
+        height:40px;
+    }
+
+    #filters
+    {
+        display: none;
+    }
+    #open-filter-icon
+    {
+        display:block;
+    }
+    #closs-filter-icon
+    {
+        display:none;
+    }
+
+}
+/*  */
+
+@media screen and (min-width:620px)
+{
+    
+    #closs-filter-icon button, #open-filter-icon button
+    {
+        display: none;
+    }
+    
+}
