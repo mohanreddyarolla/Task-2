@@ -181,11 +181,6 @@ const open = () => {
     let content = document.querySelector('#content');
     content.style['display'] = 'block';
 
-   // let alphabets = document.getElementsByClassName('alphabets');
-    let alphabets = document.querySelectorAll('button');
-    console.log(alphabets);
-    alphabets.style['display'] = 'none';
-
   } else {
     // window width is greater than 620px
     let clossFilter = document.querySelector("#closs-filter-icon");
