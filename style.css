@@ -116,7 +116,7 @@ header
     /* position: fixed;
     background-color: aliceblue; */
     height:400px;
-    min-width:330px;
+    min-width:280px;
     
     overflow: scroll;
     scroll-margin-block: none;
