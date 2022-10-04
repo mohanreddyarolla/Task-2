@@ -116,7 +116,7 @@ header
     /* position: fixed;
     background-color: aliceblue; */
     height:400px;
-    min-width:250px;
+    min-width:330px;
     
     overflow: scroll;
     scroll-margin-block: none;
@@ -150,10 +150,7 @@ header
     margin:0px;
     padding: 0px;
 }
-.alpha-icon
-{
-    /* background-color: blueviolet; */
-}
+
 
 
 #alphabert-search .alpha-button, #open-filter-icon button, #closs-filter-icon button
@@ -362,6 +359,11 @@ header
 
 @media screen and (max-width:620px)
 {
+    #input::placeholder
+    {
+        display: block;
+    }
+
     #normal-profile
     {
         display: none;

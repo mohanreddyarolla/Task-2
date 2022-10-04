@@ -181,6 +181,9 @@ const open = () => {
     let content = document.querySelector('#content');
     content.style['display'] = 'block';
 
+    document.querySelector('#input input').placeholder='Enter';
+    document.querySelector('#input input').style['width']='80px';
+
   } else {
     // window width is greater than 620px
     let clossFilter = document.querySelector("#closs-filter-icon");
@@ -200,6 +203,9 @@ const open = () => {
 
     let content = document.querySelector('#content');
     content.style['display'] = 'flex';
+
+    document.querySelector('#input input').placeholder='Enter any keyword';
+    document.querySelector('#input input').style['width']='fit-content';
   }
 };
 onresize = open;
