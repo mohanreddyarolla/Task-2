@@ -1,20 +1,21 @@
-body
-{
+body {
     font-family: 'Noto Sans JP', sans-serif;
-    margin: 0px 40px;
+    margin: 20px 40px;
 }
 
-a{
+a {
     text-decoration: none;
-    color:black;
-}
-input
-{
-    border:none;
+    color: black;
 }
 
-#media-query-profile/* , #closs-filter-icon, #open-filter-icon */
-{
+input {
+    border: none;
+}
+
+#media-query-profile
+
+/* , #closs-filter-icon, #open-filter-icon */
+    {
     display: none;
 }
 
@@ -25,99 +26,114 @@ input
     position:fixed;
 } */
 
-header
-{
+header {
     /* position: -webkit-sticky; */
     position: sticky;
-    top:0px;
+    top: 0px;
     display: flex;
-
+    /* height: fit-content; */
     justify-content: space-between;
-    border-bottom:solid rgba(128, 128, 128, 0.342) 2px;
-    height:100px;
+    border-bottom: solid rgba(128, 128, 128, 0.342) 2px;
+    height: 80px;
     background-color: white;
 }
 
-#company
-{
+#company {
     display: flex;
-    gap:10px;
+    gap: 10px;
     padding-top: 15px;
-
+    height: fit-content;
     /* border:solid; */
 }
-#title
-{
-    line-height: 3px;
-}
 
-#title p
-{
+
+#title p {
     font-weight: bold;
     font-size: 15px;
+    line-height: 15px;
 }
 
-.blue-color p, #profile p
-{
+.blue-color p,
+#profile p {
     font-weight: bold;
+
 }
 
-#profile
-{
+#profile {
     font-size: 20px;
     /* border:solid; */
+    height: fit-content;
 }
 
-#profile img
-{
-    height:60px;
-    padding-left:10px;
+#profile img {
+    height: 60px;
+    padding-left: 10px;
     /* border:solid; */
 }
 
-#logo img
-{
-    height:70px;
+#logo img {
+    height: 70px;
     /* position:absolute; */
-    padding-top: 20px;
     /* border:solid; */
 }
 
 
-.blue-color, #title .blue-color
-{
-    color:rgba(0,177,252,255);
-    font-size:25px ;
+.blue-color,
+#title .blue-color {
+    color: rgba(0, 177, 252, 255);
+    font-size: 25px;
 }
 
 
 /* ...........Filters............... */
 
 
-#departments , #offices , #job-titles
-{
-    font-size:13px;
+#Department,
+#offices,
+#JobTitle {
+    font-size: 15px;
+    margin-bottom: 10px;
 }
-#departments a, #offices a, #job-titles a
-{
+
+#Department div,
+#offices div,
+#JobTitle div{
     display: block;
-    padding:0px 5px;
-}
-#all-filters
-{
+    padding: 0px 5px;
+    background: none;
+    border:none;
+    margin:5px;
+    width:100%;
     /* border:solid; */
-    padding:0px;
-    margin:0px;
-    width:auto;
+    
 }
-#filters
+
+#filters .optionSelected
 {
-   
+    background-color: rgba(0, 177, 252, 255);
+}
+.optionDeSelected
+{
+    background-color: none;
+}
+
+
+
+
+#all-filters {
+    /* border:solid; */
+    padding: 0px;
+    margin: 0px;
+    width: auto;
+}
+
+#filters {
+
     /* position: fixed;
     backgdround-color: aliceblue; */
-    height:400px;
-    min-width:280px;
-    
+    height: 400px;
+    min-width: 280px;
+
     overflow: scroll;
     scroll-margin-block: none;
     /* border: solid; */
@@ -127,130 +143,139 @@ header
     display: none;
 }
 
+#filters h4 {
+    font-size: 15px;
+    font-weight: bold;
+}
+
 /* ...........Content ............... */
 
-#content
-{
-    display:flex;
-    
-    margin-top:20px;
+#content {
+    display: flex;
+
+    margin-top: 20px;
 }
 
 
 
-#home
-{
-    width:100%;
-    padding-top:15px;
+#home {
+    width: 100%;
+    /* padding-top: 0px; */
     /* border: solid; */
 }
 
-#alphabert-search
-{
-    margin:0px;
-    padding: 0px;
+#alphabert-search {
+    margin: 0px;
+    padding-bottom: 10px;
 }
 
 
 
-#alphabert-search .alpha-button, #open-filter-icon button, #closs-filter-icon button
-{
-    height:32px;
-    width:32px;
-    margin:1px;
-    background: rgba(0,177,252,255);
-    color:white;
-    border:none;
+#alphabert-search .alpha-button,
+#open-filter-icon button,
+#closs-filter-icon button {
+    height: 32px;
+    width: 32px;
+    margin: 1px;
+    background: rgba(0, 177, 252, 255);
+    color: white;
+    border: none;
     font-size: 15px;
 
 }
 
-#search-and-add
-{
+#search-and-add {
     display: flex;
     justify-content: space-between;
+
     /* border:solid; */
 
 }
 
-#search-and-add #search
-{
+#search-and-add #search {
     display: flex;
-    gap:20px;
+    gap: 20px;
     /* border:solid green; */
 }
 
-#search-and-add #search #input
-{
-    border:solid rgba(128, 128, 128, 0.342) 2px;
-    height:30px;
+#search-and-add #search #input {
+    border: solid rgba(128, 128, 128, 0.342) 2px;
+    height: 30px;
     padding-left: 5px;
-    margin:auto auto;
+    margin: auto auto;
     border-radius: 5px;
-    width:200px;
+    width: 200px;
+
 }
 
-#clear-btn
-{
-    height:35px;
-    width:80px;
-    margin:auto auto;
-    margin-left:20px;
-    background-color: rgba(105,186,0,255);
-    color:white;
+#search #input input {
+    font-size: 11px;
+}
+
+#clear-btn {
+    height: 35px;
+    width: 80px;
+    margin: auto auto;
+    margin-left: 20px;
+    background-color: rgba(105, 186, 0, 255);
+    color: white;
     border-radius: 5px;
     border: none;
 }
 
-#filter-by
-{
-    margin:auto auto;
+#clear-btn:hover {
+    background-color: rgb(6, 151, 18);
+}
+
+#filter-by {
+    margin: auto auto;
     font-weight: bold;
-    font-size:15px;
+    font-size: 15px;
 
 }
-#filter-by label
-{
+
+#filter-by label {
     padding-right: 10px;
 }
 
-#filter-by #select-employee
-{
-    height:35px;
+#filter-by #select-employee {
+    height: 35px;
     width: 150px;
     border: solid rgba(128, 128, 128, 0.342) 2px;
 }
 
-#add-employee
-{
-    margin:auto 0px;
+#add-employee {
+    margin: auto 0px;
 }
 
-#add-employee button
-{
-    height:35px;
-    width:fit-content;
-    background-color: rgba(0,177,252,255);
-    color:white;
+#add-employee button {
+    height: 35px;
+    width: fit-content;
+    background-color: rgba(0, 177, 252, 255);
+    color: white;
     font-size: 15px;
     font-weight: bold;
     border: none;
 }
 
-.note
-{
+#alphabert-search .alpha-button:hover,
+#add-employee button:hover {
+    background: rgb(14, 140, 237);
+}
+
+
+.note {
     font-size: 13px;
 }
 
 /* ..............employee-dashboard............... */
-#employee-dashboard
-{
+#employee-dashboard {
     display: flex;
     flex-wrap: wrap;
-    border:solid rgba(128, 128, 128, 0.342) 2px;
-    padding-left:5px;
+    border: solid rgba(128, 128, 128, 0.342) 2px;
+    padding-left: 5px;
 
-    height:300px;
+    height: 300px;
     overflow: scroll;
     scroll-margin-block: none;
     align-content: flex-start;
@@ -260,152 +285,164 @@ header
     display: none;
 }
 
-.employee-card
-{
+.employee-card {
     display: flex;
-    margin:10px 5px;
-    gap:10px;
-    height:70px;
-    width:215px;
+    margin: 10px 5px;
+    gap: 10px;
+    height: 75px;
+    width: 215px;
     /* border: solid green; */
     background-color: rgba(128, 128, 128, 0.221);
 
 }
-.employee-card .photo
-{
-    margin:10px 10px;
+
+.employee-card .photo {
+    margin: 10px 10px;
     /* border:solid; */
 
 }
-.employee-card .photo img
-{
-    height:50px;
-    width:50px;
+
+.employee-card .photo img {
+    height: 50px;
+    width: 50px;
 
 }
 
-.employee-card .employee-data
-{
+.employee-card .employee-data h4 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.employee-card .employee-data {
+    padding-top: 2px;
     font-size: 11px;
-    line-height: 1px;
+
 }
 
-.employee-data .socail
-{
-    display:flex;
-    gap:5px;
+.employee-card .employee-data p {
+    line-height: 0px;
 }
 
-.employee-data .socail i
-{
-    color:rgba(128, 128, 128, 0.799);
+.employee-data .socail {
+
+    display: flex;
+    gap: 5px;
 }
 
-@media (max-width:1080px)
-{
-    #search-and-add
-    {
+.employee-data .socail i {
+    color: rgba(128, 128, 128, 0.799);
+}
+
+@media (max-width:1080px) {
+    #search-and-add {
         display: block;
     }
-    #add-employee
-    {
+
+    #add-employee {
         margin-top: 10px;
     }
-    .blue-color, #profile
-    {
+
+    .blue-color,
+    #profile {
         font-size: 25px;
         font-weight: bold;
     }
 
-    #profile
-    {
+    #profile {
         font-size: 20px;
     }
 }
 
-@media (max-width:905px)
-{
-    #logo img
-    {
-        height:50px;
+@media (max-width:905px) {
+    #logo img {
+        height: 50px;
         padding-top: 20px;
     }
-    
-    .blue-color, #profile
-    {
+
+    .blue-color,
+    #profile {
         font-size: 20px;
         font-weight: bold;
     }
 
-    #profile
-    {
+    #profile {
         font-size: 20px;
     }
-    #profile img
-    {
-        height:50px;
+
+    #profile img {
+        height: 50px;
     }
 }
 
-@media (max-width:810px)
-{
-   
-    #title
-    {
+@media (max-width:810px) {
+
+    #title {
         display: none;
     }
 
 }
 
-@media screen and (max-width:620px)
-{
-    #input::placeholder
-    {
+@media screen and (max-width:620px) {
+    #input::placeholder {
         display: block;
     }
 
-    #normal-profile
-    {
+    #normal-profile {
         display: none;
     }
 
-    #media-query-profile
-    {
+    #media-query-profile {
         display: flex;
         margin-top: 15px;
-    }
-    #media-query-profile p 
-    {
-        line-height: 3px;
-        font-size: 15px;
-    }
-    #logo img
-    {
-        height:40px;
+        /* border:solid; */
     }
 
-    #filters
-    {
+    #media-query-profile p {
+        line-height: 3px;
+        font-size: 15px;
+        padding-top: 10px;
+    }
+
+    #logo img {
+        height: 60px;
+    }
+
+    #filters {
         display: none;
     }
-    #open-filter-icon
-    {
-        display:block;
+
+    #open-filter-icon {
+        display: block;
     }
-    #closs-filter-icon
-    {
-        display:none;
+
+    #closs-filter-icon {
+        display: none;
     }
 
 }
+
 /*  */
 
-@media screen and (min-width:620px)
-{
-    
-    #closs-filter-icon button, #open-filter-icon button
-    {
+@media screen and (min-width:620px) {
+
+    #closs-filter-icon button,
+    #open-filter-icon button {
         display: none;
     }
-    
+
+}
+
+/* bootstrap  */
+.modal-header {
+    background-color: rgba(0, 177, 252, 255);
+}
+
+.mb-3,
+.mb-3 input {
+    font-size: 15px;
+}
+
+.modal-header h5 {
+    font-weight: bold;
+    color: white;
 }

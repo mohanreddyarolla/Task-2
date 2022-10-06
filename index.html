@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
     <title>Employee Directory</title>
 
     <!-- Google Font -->
@@ -14,6 +17,13 @@
       rel="stylesheet"
     />
 
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
     <!-- Font Awesome -->
     <script
       src="https://kit.fontawesome.com/4a8bbdde12.js"
@@ -21,7 +31,7 @@
     ></script>
   </head>
 
-  <body>
+  <body onload="loadDashboard() ,loadSearchTable()">
     <div id="header">
       <header>
         <div id="company">
@@ -67,36 +77,8 @@
         </div>
 
         <div id="filters">
-          <div id="departments">
-            <h4>Departments</h4>
-            <a href="">IT (21)</a>
-            <a href="">Human Resources (2)</a>
-            <a href="">MD (1)</a>
-            <a href="">Sales (4)</a>
-          </div>
-
-          <div id="offices">
-            <h4>Offices</h4>
-            <a href="">Seattle (1)</a>
-            <a href="">India (1)</a>
-          </div>
-
-          <div id="job-titles">
-            <h4>Job Titles</h4>
-            <a href="">SharePoint Practice Head (1)</a>
-            <a href="">.Net Development Lead (1)</a>
-            <a href="">Recruiting Expert (1)</a>
-            <a href="">BI Developer (1)</a>
-            <a href="">Business Analyst (1)</a>
-          </div>
-          <div id="job-titles">
-            <h4>Job Titles</h4>
-            <a href="">SharePoint Practice Head (1)</a>
-            <a href="">.Net Development Lead (1)</a>
-            <a href="">Recruiting Expert (1)</a>
-            <a href="">BI Developer (1)</a>
-            <a href="">Business Analyst (1)</a>
-          </div>
+          <!-- Load from the local Storage -->
+          
         </div>
       </div>
 
@@ -126,7 +108,92 @@
           </div>
 
           <div id="add-employee">
-            <button>Add Employee</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#exampleModal"
+            >
+              Add Employee
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="employeeDetails"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="employeeDetails">
+                      Employee Details
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="mb-3">
+                        <label class="form-label required" >First Name</label>
+                        <input type="text" class="form-control" id="firstName"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required" >Last Name</label>
+                        <input type="text" class="form-control" id="lastName" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">Preffered Name</label>
+                        <input type="text" class="form-control" id="PrefferedName"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">Email</label>
+                        <input type="email" class="form-control" id="email"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">Department</label>
+                        <input type="text" class="form-control" id="department"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">Phone Number</label>
+                        <input type="text" class="form-control" id="phoneNumber"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">SkypeID</label>
+                        <input type="text" class="form-control" id="skypeId"/>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label required">Upload Image</label>
+                        <input type="file" class="form-control" id="uploadedImage"/>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="collectEmployeeDetails()">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -143,5 +210,21 @@
     <script src="/script.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="/style.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
