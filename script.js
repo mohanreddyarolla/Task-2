@@ -1,5 +1,5 @@
 let selectedOptionId = {};
-
+let no_option_selected = 0;
 //Adding alphabetical buttons dynalically
 let element = document.createElement("button");
 let iTag = document.createElement("i");
@@ -14,26 +14,14 @@ for (let i = 65; i <= 90; i++) {
   let char = String.fromCharCode(i);
 
   let element = document.createElement("button");
-  element.classList.add("alpha-button", "alphabets");
+  element.classList.add("alpha-button", "alphabets", "optionDeSelected");
+  element.id = char;
   element.type = "button";
   element.innerHTML = char;
+  element.setAttribute("onclick", "optionClickedInAlphabets(this.id);");
 
   let alphaSearch = document.querySelector("#alphabert-search");
   alphaSearch.appendChild(element);
-}
-
-//Adding options in select tag to get filter detailes
-
-for (let i = 1; i < 5; i++) {
-  let option = "option";
-  option = option.concat(i.toString());
-
-  let element = document.createElement("option");
-  element.value = option;
-  element.innerText = option;
-
-  let select = document.querySelector("select#select-employee");
-  select.appendChild(element);
 }
 
 //function to add social icons in employee data
@@ -94,12 +82,12 @@ function openFilter() {
   //open filter options
   let filters = document.querySelector("#filters");
   filters.style["display"] = "block";
-  filters.style["background-color"] = "rgba(0,177,252,255)";
+  filters.style["background-color"] = "rgb(132, 191, 250)";
   filters.style["color"] = "white";
 
   let allFilters = document.querySelector("#all-filters");
   allFilters.style["position"] = "fixed";
-  allFilters.style["background-color"] = "rgba(0,177,252,255)";
+  allFilters.style["background-color"] = "rgb(132, 191, 250)";
 }
 
 function closeFilter() {
@@ -181,7 +169,7 @@ function collectEmployeeDetails() {
   var lastName = document.getElementById("lastName").value;
   var prefferedName = document.getElementById("PrefferedName").value;
   var email = document.getElementById("email").value;
-  var jobTitile = document.getElementById("jobTitle").value;
+  var jobTitle = document.getElementById("jobTitle").value;
   var department = document.getElementById("department").value;
   var phoneNumber = document.getElementById("phoneNumber").value;
   var skypeId = document.getElementById("skypeId").value;
@@ -206,11 +194,16 @@ function collectEmployeeDetails() {
     lastName: lastName,
     prefferedName: prefferedName,
     email: email,
-    jobTitile: jobTitile,
+    jobTitle: jobTitle,
     department: department,
     phoneNumber: phoneNumber,
     skypeId: skypeId,
   };
+
+  //setting default preffered Name
+  if (employeeData.prefferedName == "") {
+    employeeData.prefferedName = employeeData.firstName;
+  }
 
   let employeeRecord = {};
 
@@ -223,8 +216,8 @@ function collectEmployeeDetails() {
 
   localStorage.employeeRecord = JSON.stringify(employeeRecord);
 
-  addInDashboard(firstName, lastName, jobTitile, department);
-  addInSearchTable(jobTitile, department, empId);
+  addInDashboard(empId);
+  addInSearchTable(jobTitle, department, empId);
 
   document.getElementById("firstName").value = "";
   document.getElementById("lastName").value = "";
@@ -237,26 +230,31 @@ function collectEmployeeDetails() {
 }
 
 function loadDashboard() {
+  document.getElementById("employee-dashboard").innerHTML = "";
   if (localStorage.employeeRecord) {
     let employeeRecord = JSON.parse(localStorage.employeeRecord);
     let ids = Object.keys(employeeRecord);
-    console.log(ids);
 
     ids.forEach((id) => {
-      firstName = employeeRecord[id].firstName;
-      lastName = employeeRecord[id].lastName;
-      jobTitile = employeeRecord[id].jobTitile;
-      department = employeeRecord[id].department;
-
-      addInDashboard(firstName, lastName, jobTitile, department);
+      addInDashboard(id);
     });
   }
 }
 
 //Adding Employee Details to dashboard
-function addInDashboard(firstName, lastName, jobTitile, department) {
+function addInDashboard(id) {
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+  firstName = employeeRecord[id].firstName;
+  lastName = employeeRecord[id].lastName;
+  jobTitle = employeeRecord[id].jobTitle;
+  department = employeeRecord[id].department;
+
   let employeeCard = document.createElement("div");
   employeeCard.className = "employee-card";
+  employeeCard.id = id;
+  employeeCard.setAttribute("onclick", "open_profile(this.id)");
+  employeeCard.setAttribute("data-target", "#profileModel");
+  employeeCard.setAttribute("data-toggle", "modal");
 
   //div for image
   let photo = document.createElement("div");
@@ -283,7 +281,7 @@ function addInDashboard(firstName, lastName, jobTitile, department) {
     name +
     "</h4>" +
     "<P>" +
-    jobTitile +
+    jobTitle +
     "<p>" +
     "<P>" +
     department +
@@ -355,11 +353,8 @@ function loadSearchTable() {
           item + "(" + searchTable[searchItem][item].length + ")";
 
         subitem.className = "optionDeSelected";
-        subitem.id = item;
-        subitem.setAttribute(
-          "onclick",
-          "optionClicked(this.id,document.getElementById(this.id).parentElement.id);"
-        );
+        subitem.id = searchItem.concat("_", item);
+        subitem.setAttribute("onclick", "optionClickedInFilters(this.id);");
         // console.log(subitem);
         itemsDiv.appendChild(subitem);
       });
@@ -367,37 +362,78 @@ function loadSearchTable() {
   }
 }
 
-function optionClicked(id, head) {
-  let searchTable = JSON.parse(localStorage.searchTable);
+function optionClickedInAlphabets(alphabet) {
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+  let ids = Object.keys(employeeRecord);
+  item = document.getElementById(alphabet);
+  ids.forEach((id) => {
+    //console.log(employeeRecord[id].firstName[0],employeeRecord[id].firstName[0].toString().toLowerCase());
+    let a1 = employeeRecord[id].firstName[0].toLowerCase();
+    let a2 = alphabet.toLowerCase();
+    //console.log(a1,a2);
+    if (a1 == a2) {
+      if (item.className == "optionSelected") {
+        AddIn_SelecetOptionId_OnDeSelect(id);
+      } else {
+        AddIn_SelecetOptionId_OnSelect(id);
+      }
+    }
+  });
 
+  if (item.className == "optionSelected") {
+    item.className = "optionDeSelected";
+    no_option_selected -= 1;
+  } else {
+    item.className = "optionSelected";
+    no_option_selected += 1;
+  }
+  loadFilteredProfiles();
+  if (no_option_selected < 1) {
+    loadDashboard();
+  }
+}
+
+function AddIn_SelecetOptionId_OnSelect(id) {
+  if (selectedOptionId[id]) {
+    selectedOptionId[id] += 1;
+  } else {
+    selectedOptionId[id] = 1;
+  }
+}
+function AddIn_SelecetOptionId_OnDeSelect(id) {
+  if (selectedOptionId[id] == 1) {
+    delete selectedOptionId[id];
+  } else {
+    selectedOptionId[id] -= 1;
+  }
+}
+
+function optionClickedInFilters(id) {
+  let searchTable = JSON.parse(localStorage.searchTable);
+  let parsedId = id.split("_");
+  let parent = parsedId[0];
+  let child = parsedId[1];
   item = document.getElementById(id);
 
   if (item.className == "optionSelected") {
     item.className = "optionDeSelected";
 
-    searchTable[head][id].forEach((option) => {
-      if (selectedOptionId[option] == 1) {
-        delete selectedOptionId[option];
-      } else {
-        selectedOptionId[option] -= 1;
-      }
+    searchTable[parent][child].forEach((option) => {
+      AddIn_SelecetOptionId_OnDeSelect(option);
     });
+
+    no_option_selected -= 1;
   } else {
     item.className = "optionSelected";
 
-    searchTable[head][id].forEach((option) => {
-      //option = option.toString();
-
-      if (selectedOptionId[option]) {
-        selectedOptionId[option] += 1;
-      } else {
-        selectedOptionId[option] = 1;
-      }
+    searchTable[parent][child].forEach((option) => {
+      AddIn_SelecetOptionId_OnSelect(option);
     });
-    //console.log(subitem);
+
+    no_option_selected += 1;
   }
   loadFilteredProfiles();
-  if (Object.keys(selectedOptionId).length === 0) {
+  if (no_option_selected < 1) {
     loadDashboard();
   }
 }
@@ -407,11 +443,60 @@ function loadFilteredProfiles() {
   let employeeRecord = JSON.parse(localStorage.employeeRecord);
   let optionsList = Object.keys(selectedOptionId);
   optionsList.forEach((id) => {
-    firstName = employeeRecord[id].firstName;
-    lastName = employeeRecord[id].lastName;
-    jobTitile = employeeRecord[id].jobTitile;
-    department = employeeRecord[id].department;
-
-    addInDashboard(firstName, lastName, jobTitile, department);
+    addInDashboard(id);
   });
+}
+
+function deSelectOption(parentId) {
+  let parent = document.getElementById(parentId);
+  let child = parent.children;
+
+  for (let i = 0; i < child.length; i++) {
+    child[i].className = "optionDeSelected";
+  }
+}
+
+function clearFilter() {
+  selectedOptionId = {};
+
+  deSelectOption("alphabert-search");
+  deSelectOption("JobTitle");
+  deSelectOption("Department");
+  document.getElementById("enteredInput").value = "";
+  document.getElementById("select-employee").value = "prefferedName";
+  loadDashboard();
+}
+
+//search for the input entered
+let current_selected_options = [];
+function startSearch() {
+  let input = document.getElementById("enteredInput").value;
+  let filterBy = document.getElementById("select-employee").value;
+  //console.log(filterBy);
+  remove_previous_selected_options();
+  get_all_values(filterBy, input);
+  loadFilteredProfiles();
+}
+
+function remove_previous_selected_options() {
+  current_selected_options.forEach((id) => {
+    AddIn_SelecetOptionId_OnDeSelect(id);
+  });
+}
+
+function get_all_values(key, value) {
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+  let ids = Object.keys(employeeRecord);
+  current_selected_options = [];
+  ids.forEach((id) => {
+    if (employeeRecord[id][key].toLowerCase() == value.toLowerCase()) {
+      AddIn_SelecetOptionId_OnSelect(id);
+      current_selected_options.push(id);
+    }
+  });
+}
+
+function open_profile(id) {
+  // let btn = document.getElementById('add_bmployee_btn');
+  // btn.click();
 }
