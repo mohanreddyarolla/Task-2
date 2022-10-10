@@ -27,8 +27,17 @@ button {
 
 
 #media-query-profile,
-#alert {
+#alert,
+.invalid,
+#invalidWarning,
+#noProfileFound {
     display: none;
+}
+
+.invalid,
+#invalidWarning {
+    color: red;
+    font-size: 12px;
 }
 
 
@@ -165,7 +174,7 @@ header {
     /* position: fixed;
     backgdround-color: aliceblue; */
     height: 400px;
-    min-width: 280px;
+    min-width: 275px;
 
     overflow: scroll;
     scroll-margin-block: none;
@@ -489,6 +498,12 @@ header {
         display: none;
     }
 
+}
+
+@media screen and (max-width:400px) {
+    #logo img {
+        height: 40px;
+    }
 }
 
 /*  */

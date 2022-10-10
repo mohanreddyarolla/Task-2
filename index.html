@@ -108,7 +108,7 @@
 
           <div id="add-employee">
             <button
-              id="add_bmployee_btn"
+              id="add_employee_btn"
               type="button"
               class="btn btn-primary"
               data-toggle="modal"
@@ -131,46 +131,77 @@
                   <div class="modal-header">
                     <img src="/Images/saketa-logo.png" alt="" height="50" />
                     <h5 class="modal-title" id="employeeDetails">Employee Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                      id="partialClose"
+                    >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
                     <form>
-                      <div class="mb-3">
-                        <label class="form-label required">First Name</label>
-                        <input type="text" class="form-control" id="firstName" />
+                      <div id="invalidWarning">* There are some missing data</div>
+                      <div class="mb-3" class="col-md-4">
+                        <label class="form-label required" for="firstName"
+                          >First Name<span style="color: red"> *</span></label
+                        >
+                        <input type="text" class="form-control" id="firstName" required />
+                        <div id="invalid_firstName" class="invalid">Enter the First Name</div>
                       </div>
+
                       <div class="mb-3">
-                        <label class="form-label required">Last Name</label>
+                        <label class="form-label required"
+                          >Last Name <span style="color: red"> *</span></label
+                        >
                         <input type="text" class="form-control" id="lastName" />
+                        <div id="invalid_lastName" class="invalid">Enter the Last Name</div>
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">Preffered Name</label>
                         <input type="text" class="form-control" id="PrefferedName" />
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required">Email</label>
+                        <label class="form-label required"
+                          >Email<span style="color: red"> *</span></label
+                        >
                         <input type="email" class="form-control" id="email" />
+                        <div id="invalid_email" class="invalid">Enter valid Email</div>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required">Job Title</label>
+                        <label class="form-label required"
+                          >Job Title<span style="color: red"> *</span></label
+                        >
                         <input type="text" class="form-control" id="jobTitle" />
+                        <div id="invalid_jobTitle" class="invalid">Enter Job Title</div>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required">Department</label>
+                        <label class="form-label required"
+                          >Department<span style="color: red"> *</span></label
+                        >
                         <input type="text" class="form-control" id="department" />
+                        <div id="invalid_department" class="invalid">Enter Department</div>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required">Phone Number</label>
+                        <label class="form-label required"
+                          >Phone Number<span style="color: red"> *</span></label
+                        >
                         <input type="text" class="form-control" id="phoneNumber" />
+                        <div id="invalid_phoneNumber" class="invalid">Enter valid Phone Number</div>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required">SkypeID</label>
+                        <label class="form-label required"
+                          >SkypeID<span style="color: red"> *</span></label
+                        >
                         <input type="text" class="form-control" id="skypeId" />
+                        <div id="invalid_skypeId" class="invalid">Enter SkypeID</div>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required">Upload Image</label>
+                        <label class="form-label required"
+                          >Upload Image<span style="color: red"> *</span></label
+                        >
                         <input type="file" class="form-control" id="uploadedImage" />
                       </div>
                     </form>
@@ -181,6 +212,7 @@
                       type="button"
                       class="btn btn-secondary"
                       data-dismiss="modal"
+                      onclick="clear_form();"
                     >
                       Close
                     </button>
@@ -188,6 +220,7 @@
                       id="add_save_btn"
                       type="button"
                       class="btn btn-primary"
+                      type="submit"
                       onclick="collectEmployeeDetails()"
                     >
                       Add
@@ -200,7 +233,7 @@
         </div>
 
         <p class="note">Note: Please use the advanced filter options to refine your results.</p>
-
+        <div id="noProfileFound">No profile found</div>
         <div id="employee-dashboard">
           <!-- Will add according to the given data -->
         </div>
@@ -309,7 +342,9 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="profile_close">
               Close
             </button>
-            <button type="button" class="btn btn-primary" onclick="edit_prfile();">Edit</button>
+            <button type="button" id="editProfile" class="btn btn-primary" onclick="edit_prfile();">
+              Edit
+            </button>
           </div>
         </div>
       </div>

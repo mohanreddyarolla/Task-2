@@ -3,6 +3,10 @@ let no_option_selected = 0;
 let save_btn_clicked = false;
 let initial_jobTitle = "";
 let initial_department = "";
+let employeeArray = [];
+let employeeCount = 0;
+let current_selected_options = [];
+let present_profile_id = "1";
 
 //loading all Initail content
 
@@ -32,7 +36,29 @@ function addAlphabets() {
   }
 }
 addAlphabets();
+function isInvalid(employeeData) {
+  let keys = Object.keys(employeeData);
+  let invalid = false;
+  keys.forEach((id) => {
+    let invalidId = "invalid".concat("_", id);
 
+    if (id != "prefferedName") {
+      //console.log(id, isNaN(employeeData[id]), employeeData[id]);
+      if (
+        employeeData[id] == "" ||
+        (id == "phoneNumber" && (isNaN(employeeData[id]) || employeeData[id].length != 10))
+      ) {
+        document.getElementById(invalidId).style["display"] = "block";
+        //console.log(invalidId);
+        invalid = true;
+      } else {
+        document.getElementById(invalidId).style["display"] = "none";
+      }
+    }
+  });
+  //console.log(document.querySelectorAll(".invalid"), ",,,,,,,,,,,,,,,,,,,,,,,,");
+  return invalid;
+}
 //function to add social icons in employee data
 function addSocialIcons(div) {
   let icon;
@@ -79,109 +105,8 @@ function addSocialIcons(div) {
   atag.appendChild(icon);
   div.appendChild(atag);
 }
-
-function openFilter() {
-  let clossFilter = document.querySelector("#closs-filter-icon");
-  clossFilter.style["display"] = "block";
-
-  let openFilter = document.querySelector("#open-filter-icon");
-  openFilter.style["display"] = "none";
-
-  //open filter options
-  let filters = document.querySelector("#filters");
-  filters.style["display"] = "block";
-  filters.style["background-color"] = "rgb(132, 191, 250)";
-  filters.style["color"] = "white";
-
-  let allFilters = document.querySelector("#all-filters");
-  allFilters.style["position"] = "fixed";
-  allFilters.style["background-color"] = "rgb(132, 191, 250)";
-}
-
-function closeFilter() {
-  let clossFilter = document.querySelector("#closs-filter-icon");
-  clossFilter.style["display"] = "none";
-
-  let openFilter = document.querySelector("#open-filter-icon");
-  openFilter.style["display"] = "block";
-
-  //closing the filters
-  let filters = document.querySelector("#filters");
-  filters.style["position"] = "static";
-  filters.style["background-color"] = "white";
-  filters.style["display"] = "none";
-}
-
-const open = () => {
-  var mq = window.matchMedia("screen and (max-width: 620px)");
-  if (mq.matches) {
-    // window width is at less than 620px
-    let allFilters = document.querySelector("#all-filters");
-    allFilters.style["position"] = "fixed";
-    allFilters.style["top"] = "100px";
-
-    let filters = document.querySelector("#filters");
-    filters.style["display"] = "none";
-    let clossFilter = document.querySelector("#open-filter-icon");
-    clossFilter.style["display"] = "block";
-
-    let content = document.querySelector("#content");
-    content.style["display"] = "block";
-
-    document.querySelector("#input input").placeholder = "Enter";
-    document.querySelector("#input input").style["width"] = "80px";
-  } else {
-    // window width is greater than 620px
-    let clossFilter = document.querySelector("#closs-filter-icon");
-    clossFilter.style["display"] = "none";
-
-    let openFilter = document.querySelector("#open-filter-icon");
-    openFilter.style["display"] = "none";
-
-    let allFilters = document.querySelector("#all-filters");
-    allFilters.style["position"] = "static";
-    allFilters.style["background-color"] = "white";
-
-    let filters = document.querySelector("#filters");
-    filters.style["display"] = "block";
-    filters.style["position"] = "static";
-    filters.style["background-color"] = "white";
-    filters.style["color"] = "black";
-
-    let content = document.querySelector("#content");
-    content.style["display"] = "flex";
-
-    document.querySelector("#input input").placeholder = "Enter any keyword";
-    document.querySelector("#input input").style["width"] = "fit-content";
-  }
-};
-onresize = open;
-
 //collecting employee details
-
-let employeeArray = [];
-let employeeCount = 0;
-
-function collectEmployeeDetails() {
-  if (save_btn_clicked) {
-    save_changes();
-    save_btn_clicked = false;
-    return;
-  }
-  let btn = document.getElementById("add_save_btn");
-  btn.setAttribute("onclick", "collectEmployeeDetails();");
-  btn.innerText = "Add";
-
-  let empId;
-  if (localStorage.employeeCount) {
-    empId = localStorage.employeeCount;
-    localStorage.employeeCount = parseInt(localStorage.employeeCount) + 1;
-  } else {
-    empId = 1;
-    empId = empId.toString();
-    localStorage.employeeCount = 2;
-  }
-
+function getInputs() {
   var firstName = document.getElementById("firstName").value;
   var lastName = document.getElementById("lastName").value;
   var prefferedName = document.getElementById("PrefferedName").value;
@@ -203,6 +128,44 @@ function collectEmployeeDetails() {
     skypeId: skypeId,
   };
 
+  return employeeData;
+}
+function collectEmployeeDetails() {
+  console.log(document.querySelectorAll(".invalid"));
+  //document.querySelectorAll(".invalid").style.display = "none";
+
+  if (save_btn_clicked) {
+    save_changes();
+    return;
+  }
+  let btn = document.getElementById("add_save_btn");
+  btn.setAttribute("onclick", "collectEmployeeDetails();");
+  btn.innerText = "Add";
+
+  let empId;
+  if (localStorage.employeeCount) {
+    empId = localStorage.employeeCount;
+    localStorage.employeeCount = parseInt(localStorage.employeeCount) + 1;
+  } else {
+    empId = 1;
+    empId = empId.toString();
+    localStorage.employeeCount = 2;
+  }
+
+  let employeeData = getInputs();
+
+  if (isInvalid(employeeData)) {
+    document.getElementById("partialClose").click();
+    document.getElementById("invalidWarning").style["display"] = "block";
+    setTimeout(function () {
+      document.getElementById("add_employee_btn").click();
+      //console.log("sss");
+    }, 400);
+
+    //console.log(document.getElementById("add_employee_btn"));
+    return;
+  }
+
   //setting default preffered Name
   if (employeeData.prefferedName == "") {
     employeeData.prefferedName = employeeData.firstName;
@@ -220,38 +183,89 @@ function collectEmployeeDetails() {
   localStorage.employeeRecord = JSON.stringify(employeeRecord);
 
   addInDashboard(empId);
-  addInSearchTable("JobTitle", jobTitle, empId);
-  addInSearchTable("Department", department, empId);
-  clear_form();
+  addInSearchTable("JobTitle", employeeData.jobTitle, empId);
+  addInSearchTable("Department", employeeData.department, empId);
   document.getElementById("add_employee_close_btn").click();
   display_alert("Registered Successfully");
+
+  clear_form();
 }
+function optionClickedInAlphabets(alphabet) {
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+  let ids = Object.keys(employeeRecord);
+  item = document.getElementById(alphabet);
+  ids.forEach((id) => {
+    //console.log(employeeRecord[id].firstName[0],employeeRecord[id].firstName[0].toString().toLowerCase());
+    let a1 = employeeRecord[id].firstName[0].toLowerCase();
+    let a2 = alphabet.toLowerCase();
+    //console.log(a1,a2);
+    if (a1 == a2) {
+      if (item.className == "optionSelected") {
+        AddIn_SelecetOptionId_OnDeSelect(id);
+      } else {
+        AddIn_SelecetOptionId_OnSelect(id);
+      }
+    }
+  });
 
-function clear_form() {
-  document.getElementById("firstName").value = "";
-  document.getElementById("lastName").value = "";
-  document.getElementById("PrefferedName").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("jobTitle").value = "";
-  document.getElementById("department").value = "";
-  document.getElementById("phoneNumber").value = "";
-  document.getElementById("skypeId").value = "";
+  if (item.className == "optionSelected") {
+    item.className = "optionDeSelected";
+    no_option_selected -= 1;
+  } else {
+    item.className = "optionSelected";
+    no_option_selected += 1;
+  }
+  loadFilteredProfiles();
+  if (no_option_selected < 1) {
+    loadDashboard();
+  }
+  //console.log(no_option_selected);
 }
+function optionClickedInFilters(id) {
+  let searchTable = JSON.parse(localStorage.searchTable);
+  let parsedId = id.split("_");
+  let parent = parsedId[0];
+  let child = parsedId[1];
+  item = document.getElementById(id);
 
-function loadDashboard() {
-  document.getElementById("employee-dashboard").innerHTML = "";
-  if (localStorage.employeeRecord) {
-    let employeeRecord = JSON.parse(localStorage.employeeRecord);
-    let ids = Object.keys(employeeRecord);
+  if (item.className == "optionSelected") {
+    item.className = "optionDeSelected";
 
-    ids.forEach((id) => {
-      addInDashboard(id);
+    searchTable[parent][child].forEach((option) => {
+      AddIn_SelecetOptionId_OnDeSelect(option);
     });
+
+    no_option_selected -= 1;
+  } else {
+    item.className = "optionSelected";
+
+    searchTable[parent][child].forEach((option) => {
+      AddIn_SelecetOptionId_OnSelect(option);
+    });
+
+    no_option_selected += 1;
+  }
+  loadFilteredProfiles();
+  if (no_option_selected < 1) {
+    loadDashboard();
   }
 }
-
-//Adding Employee Details to dashboard
+function AddIn_SelecetOptionId_OnSelect(id) {
+  if (selectedOptionId[id]) {
+    selectedOptionId[id] += 1;
+  } else {
+    selectedOptionId[id] = 1;
+  }
+}
+function AddIn_SelecetOptionId_OnDeSelect(id) {
+  if (selectedOptionId[id] == 1) {
+    delete selectedOptionId[id];
+  } else {
+    selectedOptionId[id] -= 1;
+  }
+}
 function addInDashboard(id) {
+  //Adding Employee Details to dashboard
   let employeeRecord = JSON.parse(localStorage.employeeRecord);
   firstName = employeeRecord[id].firstName;
   lastName = employeeRecord[id].lastName;
@@ -297,9 +311,8 @@ function addInDashboard(id) {
   let profile = document.querySelector("#employee-dashboard");
   profile.appendChild(employeeCard);
 }
-
-//search by department, location and JobTitles
 function addInSearchTable(title, value, empId) {
+  //search by department, location and JobTitles
   let searchTable = {};
 
   if (localStorage.searchTable) {
@@ -320,7 +333,18 @@ function addInSearchTable(title, value, empId) {
   localStorage.searchTable = JSON.stringify(searchTable);
   loadSearchTable();
 }
+function loadDashboard() {
+  document.getElementById("noProfileFound").style["display"] = "none";
+  document.getElementById("employee-dashboard").innerHTML = "";
+  if (localStorage.employeeRecord) {
+    let employeeRecord = JSON.parse(localStorage.employeeRecord);
+    let ids = Object.keys(employeeRecord);
 
+    ids.forEach((id) => {
+      addInDashboard(id);
+    });
+  }
+}
 function loadSearchTable() {
   let searchTable = {};
 
@@ -351,92 +375,20 @@ function loadSearchTable() {
     });
   }
 }
-
-function optionClickedInAlphabets(alphabet) {
-  let employeeRecord = JSON.parse(localStorage.employeeRecord);
-  let ids = Object.keys(employeeRecord);
-  item = document.getElementById(alphabet);
-  ids.forEach((id) => {
-    //console.log(employeeRecord[id].firstName[0],employeeRecord[id].firstName[0].toString().toLowerCase());
-    let a1 = employeeRecord[id].firstName[0].toLowerCase();
-    let a2 = alphabet.toLowerCase();
-    //console.log(a1,a2);
-    if (a1 == a2) {
-      if (item.className == "optionSelected") {
-        AddIn_SelecetOptionId_OnDeSelect(id);
-      } else {
-        AddIn_SelecetOptionId_OnSelect(id);
-      }
-    }
-  });
-
-  if (item.className == "optionSelected") {
-    item.className = "optionDeSelected";
-    no_option_selected -= 1;
-  } else {
-    item.className = "optionSelected";
-    no_option_selected += 1;
-  }
-  loadFilteredProfiles();
-  if (no_option_selected < 1) {
-    loadDashboard();
-  }
-}
-
-function AddIn_SelecetOptionId_OnSelect(id) {
-  if (selectedOptionId[id]) {
-    selectedOptionId[id] += 1;
-  } else {
-    selectedOptionId[id] = 1;
-  }
-}
-function AddIn_SelecetOptionId_OnDeSelect(id) {
-  if (selectedOptionId[id] == 1) {
-    delete selectedOptionId[id];
-  } else {
-    selectedOptionId[id] -= 1;
-  }
-}
-
-function optionClickedInFilters(id) {
-  let searchTable = JSON.parse(localStorage.searchTable);
-  let parsedId = id.split("_");
-  let parent = parsedId[0];
-  let child = parsedId[1];
-  item = document.getElementById(id);
-
-  if (item.className == "optionSelected") {
-    item.className = "optionDeSelected";
-
-    searchTable[parent][child].forEach((option) => {
-      AddIn_SelecetOptionId_OnDeSelect(option);
-    });
-
-    no_option_selected -= 1;
-  } else {
-    item.className = "optionSelected";
-
-    searchTable[parent][child].forEach((option) => {
-      AddIn_SelecetOptionId_OnSelect(option);
-    });
-
-    no_option_selected += 1;
-  }
-  loadFilteredProfiles();
-  if (no_option_selected < 1) {
-    loadDashboard();
-  }
-}
-
 function loadFilteredProfiles() {
   document.getElementById("employee-dashboard").innerHTML = "";
-  let employeeRecord = JSON.parse(localStorage.employeeRecord);
   let optionsList = Object.keys(selectedOptionId);
+
+  document.getElementById("noProfileFound").style["display"] = "block";
+  if (optionsList.length == 0) {
+    document.getElementById("noProfileFound").innerText = "No profile found";
+  } else {
+    document.getElementById("noProfileFound").innerText = "Here are the results";
+  }
   optionsList.forEach((id) => {
     addInDashboard(id);
   });
 }
-
 function deSelectOption(parentId) {
   let parent = document.getElementById(parentId);
   let child = parent.children;
@@ -445,7 +397,100 @@ function deSelectOption(parentId) {
     child[i].className = "optionDeSelected";
   }
 }
+function clear_form() {
+  document.getElementById("firstName").value = "";
+  document.getElementById("lastName").value = "";
+  document.getElementById("PrefferedName").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("jobTitle").value = "";
+  document.getElementById("department").value = "";
+  document.getElementById("phoneNumber").value = "";
+  document.getElementById("skypeId").value = "";
 
+  //dleating the active invalid message divs
+  let clearInvalidDiv = document.querySelectorAll(".invalid");
+
+  for (let i = 0; i < clearInvalidDiv.length; i++) {
+    clearInvalidDiv[i].style["display"] = "none";
+  }
+
+  document.getElementById("invalidWarning").style["display"] = "none";
+  save_btn_clicked = false;
+}
+function openFilter() {
+  let clossFilter = document.querySelector("#closs-filter-icon");
+  clossFilter.style["display"] = "block";
+
+  let openFilter = document.querySelector("#open-filter-icon");
+  openFilter.style["display"] = "none";
+
+  //open filter options
+  let filters = document.querySelector("#filters");
+  filters.style["display"] = "block";
+  filters.style["background-color"] = "rgb(132, 191, 250)";
+  filters.style["color"] = "white";
+
+  let allFilters = document.querySelector("#all-filters");
+  allFilters.style["position"] = "fixed";
+  allFilters.style["background-color"] = "rgb(132, 191, 250)";
+}
+function closeFilter() {
+  let clossFilter = document.querySelector("#closs-filter-icon");
+  clossFilter.style["display"] = "none";
+
+  let openFilter = document.querySelector("#open-filter-icon");
+  openFilter.style["display"] = "block";
+
+  //closing the filters
+  let filters = document.querySelector("#filters");
+  filters.style["position"] = "static";
+  filters.style["background-color"] = "white";
+  filters.style["display"] = "none";
+}
+const open = () => {
+  var mq = window.matchMedia("screen and (max-width: 620px)");
+  if (mq.matches) {
+    // window width is at less than 620px
+    let allFilters = document.querySelector("#all-filters");
+    allFilters.style["position"] = "fixed";
+    allFilters.style["top"] = "100px";
+
+    let filters = document.querySelector("#filters");
+    filters.style["display"] = "none";
+    let clossFilter = document.querySelector("#open-filter-icon");
+    clossFilter.style["display"] = "block";
+
+    let content = document.querySelector("#content");
+    content.style["display"] = "block";
+
+    document.querySelector("#input input").placeholder = "Enter";
+    document.querySelector("#input input").style["width"] = "80px";
+  } else {
+    // window width is greater than 620px
+    let clossFilter = document.querySelector("#closs-filter-icon");
+    clossFilter.style["display"] = "none";
+
+    let openFilter = document.querySelector("#open-filter-icon");
+    openFilter.style["display"] = "none";
+
+    let allFilters = document.querySelector("#all-filters");
+    allFilters.style["position"] = "static";
+    allFilters.style["background-color"] = "white";
+
+    let filters = document.querySelector("#filters");
+    filters.style["display"] = "block";
+    filters.style["position"] = "static";
+    filters.style["background-color"] = "white";
+    filters.style["color"] = "black";
+
+    let content = document.querySelector("#content");
+    content.style["display"] = "flex";
+
+    document.querySelector("#input input").placeholder = "Enter any keyword";
+    document.querySelector("#input input").style["width"] = "fit-content";
+  }
+};
+onresize = open;
 function clearFilter() {
   selectedOptionId = {};
 
@@ -456,37 +501,6 @@ function clearFilter() {
   document.getElementById("select-employee").value = "prefferedName";
   loadDashboard();
 }
-
-//search for the input entered
-let current_selected_options = [];
-function startSearch() {
-  let input = document.getElementById("enteredInput").value;
-  let filterBy = document.getElementById("select-employee").value;
-  //console.log(filterBy);
-  remove_previous_selected_options();
-  get_all_values(filterBy, input);
-  loadFilteredProfiles();
-}
-
-function remove_previous_selected_options() {
-  current_selected_options.forEach((id) => {
-    AddIn_SelecetOptionId_OnDeSelect(id);
-  });
-}
-
-function get_all_values(key, value) {
-  let employeeRecord = JSON.parse(localStorage.employeeRecord);
-  let ids = Object.keys(employeeRecord);
-  current_selected_options = [];
-  ids.forEach((id) => {
-    if (employeeRecord[id][key].toLowerCase() == value.toLowerCase()) {
-      AddIn_SelecetOptionId_OnSelect(id);
-      current_selected_options.push(id);
-    }
-  });
-}
-
-let present_profile_id = "1";
 function open_profile(id) {
   // let btn = document.getElementById('add_bmployee_btn');
   present_profile_id = id;
@@ -507,7 +521,31 @@ function open_profile(id) {
   document.getElementById("model_phone").innerText = employeeRecord[id].phoneNumber;
   document.getElementById("model_skypeId").innerText = employeeRecord[id].skypeId;
 }
-
+function startSearch() {
+  //search for the input entered
+  let input = document.getElementById("enteredInput").value;
+  let filterBy = document.getElementById("select-employee").value;
+  //console.log(filterBy);
+  remove_previous_selected_options();
+  get_all_values(filterBy, input);
+  loadFilteredProfiles();
+}
+function remove_previous_selected_options() {
+  current_selected_options.forEach((id) => {
+    AddIn_SelecetOptionId_OnDeSelect(id);
+  });
+}
+function get_all_values(key, value) {
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+  let ids = Object.keys(employeeRecord);
+  current_selected_options = [];
+  ids.forEach((id) => {
+    if (employeeRecord[id][key].toLowerCase() == value.toLowerCase()) {
+      AddIn_SelecetOptionId_OnSelect(id);
+      current_selected_options.push(id);
+    }
+  });
+}
 function edit_prfile() {
   //consol;e.log(present_profile_id);
   let employeeRecord = JSON.parse(localStorage.employeeRecord);
@@ -515,7 +553,7 @@ function edit_prfile() {
   initial_jobTitle = employeeRecord[present_profile_id].jobTitle;
   initial_department = employeeRecord[present_profile_id].department;
 
-  console.log(initial_department, "++...+++", initial_jobTitle);
+  //console.log(initial_department, "++...+++", initial_jobTitle);
   //displaying original saved data
   document.getElementById("firstName").value = employeeRecord[present_profile_id].firstName;
   document.getElementById("lastName").value = employeeRecord[present_profile_id].lastName;
@@ -529,8 +567,8 @@ function edit_prfile() {
   document.getElementById("profile_close").click();
   setTimeout(function () {
     // function code goes here
-    console.log("lkgjlksf");
-    document.getElementById("add_bmployee_btn").click();
+    //console.log("lkgjlksf");
+    document.getElementById("add_employee_btn").click();
   }, 400);
 
   let btn = document.getElementById("add_save_btn");
@@ -539,7 +577,6 @@ function edit_prfile() {
   //console.log(document.getElementById('add_bmployee_btn'));
   //document.getElementById('add_bmployee_btn').click();
 }
-
 function remove_from_search_Table(title, value, id) {
   let searchTable = JSON.parse(localStorage.searchTable);
   console.log(searchTable[title][value], title, value);
@@ -558,22 +595,34 @@ function remove_from_search_Table(title, value, id) {
   console.log(searchTable);
   localStorage.searchTable = JSON.stringify(searchTable);
 }
-
 function save_changes() {
   let employeeRecord = JSON.parse(localStorage.employeeRecord);
   //console.log(employeeRecord[present_profile_id]);
-  console.log(initial_department, "+++++", initial_jobTitle);
-  employeeRecord[present_profile_id].firstName = document.getElementById("firstName").value;
-  employeeRecord[present_profile_id].lastName = document.getElementById("lastName").value;
-  employeeRecord[present_profile_id].prefferedName = document.getElementById("PrefferedName").value;
-  employeeRecord[present_profile_id].email = document.getElementById("email").value;
-  employeeRecord[present_profile_id].jobTitle = document.getElementById("jobTitle").value;
-  employeeRecord[present_profile_id].department = document.getElementById("department").value;
-  employeeRecord[present_profile_id].phoneNumber = document.getElementById("phoneNumber").value;
-  employeeRecord[present_profile_id].skypeId = document.getElementById("skypeId").value;
+  //console.log(initial_department, "+++++", initial_jobTitle);
+
+  let employeeData = getInputs();
+
+  if (isInvalid(employeeData)) {
+    document.getElementById("partialClose").click();
+    document.getElementById("invalidWarning").style["display"] = "block";
+    setTimeout(function () {
+      document.getElementById("add_employee_btn").click();
+      //console.log("sss");
+    }, 400);
+    return;
+  }
+
+  employeeRecord[present_profile_id].firstName = employeeData.firstName;
+  employeeRecord[present_profile_id].lastName = employeeData.lastName;
+  employeeRecord[present_profile_id].prefferedName = employeeData.prefferedName;
+  employeeRecord[present_profile_id].email = employeeData.email;
+  employeeRecord[present_profile_id].jobTitle = employeeData.jobTitle;
+  employeeRecord[present_profile_id].department = employeeData.department;
+  employeeRecord[present_profile_id].phoneNumber = employeeData.phoneNumber;
+  employeeRecord[present_profile_id].skypeId = employeeData.skypeId;
 
   if (initial_jobTitle != document.getElementById("jobTitle").value) {
-    console.log(initial_jobTitle, "---", document.getElementById("jobTitle").value);
+    //console.log(initial_jobTitle, "---", document.getElementById("jobTitle").value);
     remove_from_search_Table("JobTitle", initial_jobTitle, present_profile_id);
     addInSearchTable("JobTitle", document.getElementById("jobTitle").value, present_profile_id);
   }
@@ -592,8 +641,8 @@ function save_changes() {
   document.getElementById("add_employee_close_btn").click();
 
   display_alert("Your Data Updated Successfully");
+  save_btn_clicked = false;
 }
-
 function display_alert(message) {
   document.getElementById("alert").style["display"] = "block";
   document.getElementById("alert_message").innerText = message;
