@@ -1,31 +1,39 @@
 let selectedOptionId = {};
 let no_option_selected = 0;
+let save_btn_clicked = false;
+let initial_jobTitle = "";
+let initial_department = "";
+
+//loading all Initail content
+
 //Adding alphabetical buttons dynalically
-let element = document.createElement("button");
-let iTag = document.createElement("i");
-element.classList.add("alpha-button", "alpha-icon");
-element.type = "button";
-iTag.className = "fa-solid fa-user-large";
-element.appendChild(iTag);
-
-let alphaSearch = document.querySelector("#alphabert-search");
-alphaSearch.appendChild(element);
-for (let i = 65; i <= 90; i++) {
-  let char = String.fromCharCode(i);
-
+function addAlphabets() {
   let element = document.createElement("button");
-  element.classList.add("alpha-button", "alphabets", "optionDeSelected");
-  element.id = char;
+  let iTag = document.createElement("i");
+  element.classList.add("alpha-button", "alpha-icon");
   element.type = "button";
-  element.innerHTML = char;
-  element.setAttribute("onclick", "optionClickedInAlphabets(this.id);");
+  iTag.className = "fa-solid fa-user-large";
+  element.appendChild(iTag);
 
   let alphaSearch = document.querySelector("#alphabert-search");
   alphaSearch.appendChild(element);
+  for (let i = 65; i <= 90; i++) {
+    let char = String.fromCharCode(i);
+
+    let element = document.createElement("button");
+    element.classList.add("alpha-button", "alphabets", "optionDeSelected");
+    element.id = char;
+    element.type = "button";
+    element.innerHTML = char;
+    element.setAttribute("onclick", "optionClickedInAlphabets(this.id);");
+
+    let alphaSearch = document.querySelector("#alphabert-search");
+    alphaSearch.appendChild(element);
+  }
 }
+addAlphabets();
 
 //function to add social icons in employee data
-
 function addSocialIcons(div) {
   let icon;
   let atag;
@@ -155,6 +163,15 @@ let employeeArray = [];
 let employeeCount = 0;
 
 function collectEmployeeDetails() {
+  if (save_btn_clicked) {
+    save_changes();
+    save_btn_clicked = false;
+    return;
+  }
+  let btn = document.getElementById("add_save_btn");
+  btn.setAttribute("onclick", "collectEmployeeDetails();");
+  btn.innerText = "Add";
+
   let empId;
   if (localStorage.employeeCount) {
     empId = localStorage.employeeCount;
@@ -175,20 +192,6 @@ function collectEmployeeDetails() {
   var skypeId = document.getElementById("skypeId").value;
   var image = document.getElementById("uploadedImage").value;
 
-  /*
-  document.getElementById("uploadedImage").addEventListener('change',function ()
-  {
-    let imageReader = new FileReader();
-    
-    imageReader.addEventListener('load',()=>
-    {
-      employeeObject['profileImage'] = imageReader.result;
-    })
-
-    imageReader.readAsDataURL(this.file[0]);
-  console.log(imageReader);
-
-  });*/
   let employeeData = {
     firstName: firstName,
     lastName: lastName,
@@ -217,8 +220,14 @@ function collectEmployeeDetails() {
   localStorage.employeeRecord = JSON.stringify(employeeRecord);
 
   addInDashboard(empId);
-  addInSearchTable(jobTitle, department, empId);
+  addInSearchTable("JobTitle", jobTitle, empId);
+  addInSearchTable("Department", department, empId);
+  clear_form();
+  document.getElementById("add_employee_close_btn").click();
+  display_alert("Registered Successfully");
+}
 
+function clear_form() {
   document.getElementById("firstName").value = "";
   document.getElementById("lastName").value = "";
   document.getElementById("PrefferedName").value = "";
@@ -277,15 +286,7 @@ function addInDashboard(id) {
   addSocialIcons(social);
 
   empData.innerHTML =
-    "<h4>" +
-    name +
-    "</h4>" +
-    "<P>" +
-    jobTitle +
-    "<p>" +
-    "<P>" +
-    department +
-    "<p>";
+    "<h4>" + name + "</h4>" + "<P>" + jobTitle + "<p>" + "<P>" + department + "<p>";
   empData.appendChild(social);
 
   //adding photo and employee data
@@ -298,34 +299,24 @@ function addInDashboard(id) {
 }
 
 //search by department, location and JobTitles
-function addInSearchTable(jobTitle, department, empId) {
+function addInSearchTable(title, value, empId) {
   let searchTable = {};
 
   if (localStorage.searchTable) {
     searchTable = JSON.parse(localStorage.searchTable);
   }
 
-  if ("JobTitle" in searchTable) {
-    if (jobTitle in searchTable["JobTitle"]) {
-      searchTable["JobTitle"][jobTitle].push(empId);
+  if (title in searchTable) {
+    if (value in searchTable[title]) {
+      searchTable[title][value].push(empId);
     } else {
-      searchTable["JobTitle"][jobTitle] = [empId];
+      searchTable[title][value] = [empId];
     }
   } else {
-    searchTable["JobTitle"] = {};
-    searchTable["JobTitle"][jobTitle] = [empId];
+    searchTable[title] = {};
+    searchTable[title][value] = [empId];
   }
 
-  if ("Department" in searchTable) {
-    if (department in searchTable["Department"]) {
-      searchTable["Department"][department].push(empId);
-    } else {
-      searchTable["Department"][department] = [empId];
-    }
-  } else {
-    searchTable["Department"] = {};
-    searchTable["Department"][department] = [empId];
-  }
   localStorage.searchTable = JSON.stringify(searchTable);
   loadSearchTable();
 }
@@ -349,8 +340,7 @@ function loadSearchTable() {
       items.forEach((item) => {
         let subitem = document.createElement("div");
 
-        subitem.innerText =
-          item + "(" + searchTable[searchItem][item].length + ")";
+        subitem.innerText = item + "(" + searchTable[searchItem][item].length + ")";
 
         subitem.className = "optionDeSelected";
         subitem.id = searchItem.concat("_", item);
@@ -496,7 +486,118 @@ function get_all_values(key, value) {
   });
 }
 
+let present_profile_id = "1";
 function open_profile(id) {
   // let btn = document.getElementById('add_bmployee_btn');
-  // btn.click();
+  present_profile_id = id;
+
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+
+  document.getElementById("model_profiel_prefferedName").innerText =
+    employeeRecord[id].prefferedName;
+  document.getElementById("model_profiel_jobTitle").innerText = employeeRecord[id].jobTitle;
+  document.getElementById("model_profiel_department").innerText = employeeRecord[id].department;
+  document.getElementById("model_full_name").innerText = employeeRecord[id].firstName.concat(
+    " ",
+    employeeRecord[id].lastName
+  );
+  document.getElementById("model_jobTitle").innerText = employeeRecord[id].jobTitle;
+  document.getElementById("model_department").innerText = employeeRecord[id].department;
+  document.getElementById("model_email").innerText = employeeRecord[id].email;
+  document.getElementById("model_phone").innerText = employeeRecord[id].phoneNumber;
+  document.getElementById("model_skypeId").innerText = employeeRecord[id].skypeId;
+}
+
+function edit_prfile() {
+  //consol;e.log(present_profile_id);
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+
+  initial_jobTitle = employeeRecord[present_profile_id].jobTitle;
+  initial_department = employeeRecord[present_profile_id].department;
+
+  console.log(initial_department, "++...+++", initial_jobTitle);
+  //displaying original saved data
+  document.getElementById("firstName").value = employeeRecord[present_profile_id].firstName;
+  document.getElementById("lastName").value = employeeRecord[present_profile_id].lastName;
+  document.getElementById("PrefferedName").value = employeeRecord[present_profile_id].prefferedName;
+  document.getElementById("email").value = employeeRecord[present_profile_id].email;
+  document.getElementById("jobTitle").value = employeeRecord[present_profile_id].jobTitle;
+  document.getElementById("department").value = employeeRecord[present_profile_id].department;
+  document.getElementById("phoneNumber").value = employeeRecord[present_profile_id].phoneNumber;
+  document.getElementById("skypeId").value = employeeRecord[present_profile_id].skypeId;
+
+  document.getElementById("profile_close").click();
+  setTimeout(function () {
+    // function code goes here
+    console.log("lkgjlksf");
+    document.getElementById("add_bmployee_btn").click();
+  }, 400);
+
+  let btn = document.getElementById("add_save_btn");
+  btn.innerText = "Save";
+  save_btn_clicked = true;
+  //console.log(document.getElementById('add_bmployee_btn'));
+  //document.getElementById('add_bmployee_btn').click();
+}
+
+function remove_from_search_Table(title, value, id) {
+  let searchTable = JSON.parse(localStorage.searchTable);
+  console.log(searchTable[title][value], title, value);
+
+  if (searchTable[title][value].length == 1) {
+    delete searchTable[title][value];
+    console.log(searchTable[title]);
+  } else {
+    for (var i = searchTable[title][value].length - 1; i >= 0; i--) {
+      if (searchTable[title][value][i] === id) {
+        searchTable[title][value].splice(i, 1);
+      }
+    }
+  }
+  console.log(searchTable[title][value]);
+  console.log(searchTable);
+  localStorage.searchTable = JSON.stringify(searchTable);
+}
+
+function save_changes() {
+  let employeeRecord = JSON.parse(localStorage.employeeRecord);
+  //console.log(employeeRecord[present_profile_id]);
+  console.log(initial_department, "+++++", initial_jobTitle);
+  employeeRecord[present_profile_id].firstName = document.getElementById("firstName").value;
+  employeeRecord[present_profile_id].lastName = document.getElementById("lastName").value;
+  employeeRecord[present_profile_id].prefferedName = document.getElementById("PrefferedName").value;
+  employeeRecord[present_profile_id].email = document.getElementById("email").value;
+  employeeRecord[present_profile_id].jobTitle = document.getElementById("jobTitle").value;
+  employeeRecord[present_profile_id].department = document.getElementById("department").value;
+  employeeRecord[present_profile_id].phoneNumber = document.getElementById("phoneNumber").value;
+  employeeRecord[present_profile_id].skypeId = document.getElementById("skypeId").value;
+
+  if (initial_jobTitle != document.getElementById("jobTitle").value) {
+    console.log(initial_jobTitle, "---", document.getElementById("jobTitle").value);
+    remove_from_search_Table("JobTitle", initial_jobTitle, present_profile_id);
+    addInSearchTable("JobTitle", document.getElementById("jobTitle").value, present_profile_id);
+  }
+  if (initial_department != document.getElementById("department").value) {
+    remove_from_search_Table("Department", initial_department, present_profile_id);
+    addInSearchTable("Department", document.getElementById("department").value, present_profile_id);
+  }
+
+  localStorage.employeeRecord = JSON.stringify(employeeRecord);
+  loadDashboard();
+  clear_form();
+
+  let btn = document.getElementById("add_save_btn");
+  btn.setAttribute("onclick", "collectEmployeeDetails();");
+  btn.innerText = "Add";
+  document.getElementById("add_employee_close_btn").click();
+
+  display_alert("Your Data Updated Successfully");
+}
+
+function display_alert(message) {
+  document.getElementById("alert").style["display"] = "block";
+  document.getElementById("alert_message").innerText = message;
+  setTimeout(function () {
+    document.getElementById("alert").style["display"] = "none";
+  }, 2000);
 }

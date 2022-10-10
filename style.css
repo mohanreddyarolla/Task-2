@@ -1,6 +1,7 @@
 body {
     font-family: 'Noto Sans JP', sans-serif;
     margin: 20px 40px;
+
 }
 
 a {
@@ -17,9 +18,7 @@ button:focus,
 input:focus,
 input.active.focus,
 input,
-button 
-
-{
+button {
     outline: none;
     box-shadow: none;
     background-color: white;
@@ -27,9 +26,11 @@ button
 }
 
 
-#media-query-profile {
+#media-query-profile,
+#alert {
     display: none;
 }
+
 
 /*....................... Header.................... */
 
@@ -443,6 +444,19 @@ header {
         display: block;
     }
 
+    #search p {
+        display: none;
+    }
+
+    #search {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #clear-btn {
+        margin: 5px auto;
+    }
+
     #normal-profile {
         display: none;
     }
@@ -499,36 +513,43 @@ header {
 }
 
 .modal-header h5 {
+    padding-left: 10px;
+    margin-top: 5px;
     font-weight: bold;
-    color: white;
+    color: rgba(55, 55, 54, 255);
+    text-shadow: 0px 0px 0.5px rgba(55, 55, 54, 255);
+    /* border: solid; */
 }
 
-.alert {
-    position: fixed;
-    width: 100%;
-    height: 20px;
-    border: solid;
-    margin: auto;
-}
 
-.alert p {
-    margin: auto;
-    border: solid;
-}
 
-#profileModel .modal-dialog
-{
+#profileModel .modal-dialog {
     /* border:solid; */
-    max-width:900px;
+    max-width: 900px;
 }
-.row
-{
+
+.row {
     /* border:solid; */
     margin: 0px;
     padding: 10px;
 }
-.col-sm-3
-{
+
+.col-sm-3 {
+    width: fit-content;
+    /* border: solid; */
+}
+
+#alert {
+    position: absolute;
+    top: 50px;
+    z-index: 1;
+    width: 100%;
+    /* border: solid; */
+}
+
+#alert_message {
+    background-color: rgb(71, 237, 137);
+    margin: auto;
     width: fit-content;
     /* border: solid; */
 }

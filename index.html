@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>Employee Directory</title>
 
@@ -25,10 +22,7 @@
     />
 
     <!-- Font Awesome -->
-    <script
-      src="https://kit.fontawesome.com/4a8bbdde12.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/4a8bbdde12.js" crossorigin="anonymous"></script>
   </head>
 
   <body onload="loadDashboard() ,loadSearchTable()">
@@ -47,9 +41,7 @@
 
         <div id="profile">
           <div id="normal-profile">
-            <div id="name">
-              <span class="blue-color">Welcome, </span>Andrew Philips
-            </div>
+            <div id="name"><span class="blue-color">Welcome, </span>Andrew Philips</div>
             <div><img src="/Images/profile-1.png" alt="" /></div>
           </div>
           <div id="media-query-profile">
@@ -61,6 +53,10 @@
           </div>
         </div>
       </header>
+    </div>
+
+    <div id="alert">
+      <div class="alert alert-success" id="alert_message" role="alert">...</div>
     </div>
 
     <div id="content">
@@ -94,11 +90,7 @@
               <button id="searchButton" onclick="startSearch();">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
-              <input
-                type="text"
-                id="enteredInput"
-                placeholder="Enter any keyword"
-              />
+              <input type="text" id="enteredInput" placeholder="Enter any keyword" />
             </div>
 
             <button id="clear-btn" onclick="clearFilter()">Clear</button>
@@ -137,15 +129,9 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="employeeDetails">
-                      Employee Details
-                    </h5>
-                    <button
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
+                    <img src="/Images/saketa-logo.png" alt="" height="50" />
+                    <h5 class="modal-title" id="employeeDetails">Employee Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -153,25 +139,15 @@
                     <form>
                       <div class="mb-3">
                         <label class="form-label required">First Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="firstName"
-                        />
+                        <input type="text" class="form-control" id="firstName" />
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">Last Name</label>
                         <input type="text" class="form-control" id="lastName" />
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required"
-                          >Preffered Name</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="PrefferedName"
-                        />
+                        <label class="form-label required">Preffered Name</label>
+                        <input type="text" class="form-control" id="PrefferedName" />
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">Email</label>
@@ -183,19 +159,11 @@
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">Department</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="department"
-                        />
+                        <input type="text" class="form-control" id="department" />
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">Phone Number</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="phoneNumber"
-                        />
+                        <input type="text" class="form-control" id="phoneNumber" />
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">SkypeID</label>
@@ -203,16 +171,13 @@
                       </div>
                       <div class="mb-3">
                         <label class="form-label required">Upload Image</label>
-                        <input
-                          type="file"
-                          class="form-control"
-                          id="uploadedImage"
-                        />
+                        <input type="file" class="form-control" id="uploadedImage" />
                       </div>
                     </form>
                   </div>
                   <div class="modal-footer">
                     <button
+                      id="add_employee_close_btn"
                       type="button"
                       class="btn btn-secondary"
                       data-dismiss="modal"
@@ -220,6 +185,7 @@
                       Close
                     </button>
                     <button
+                      id="add_save_btn"
                       type="button"
                       class="btn btn-primary"
                       onclick="collectEmployeeDetails()"
@@ -233,9 +199,7 @@
           </div>
         </div>
 
-        <p class="note">
-          Note: Please use the advanced filter options to refine your results.
-        </p>
+        <p class="note">Note: Please use the advanced filter options to refine your results.</p>
 
         <div id="employee-dashboard">
           <!-- Will add according to the given data -->
@@ -256,110 +220,96 @@
         <div class="modal-content">
           <div class="modal-header">
             <img src="/Images/saketa-logo.png" alt="" height="50" />
-            
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            
-            <section style="background-color: #eee;">
-              
-                <div class="row">
-                  <div class="col-lg-4">
-                    <div class="card mb-4">
-                      <div class="card-body text-center">
-                        <img src="/Images/profile-1.png" alt="avatar"
-                          class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="my-3">John Smith</h5>
-                        <p class="text-muted mb-1">Intern</p>
-                        <p class="text-muted mb-1">Product Engineer</p>
-                        
-                      </div>
+            <section style="background-color: #eee">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="card mb-4">
+                    <div class="card-body text-center">
+                      <img
+                        src="/Images/profile-1.png"
+                        alt="avatar"
+                        class="rounded-circle img-fluid"
+                        style="width: 150px"
+                      />
+                      <h5 class="my-3" id="model_profiel_prefferedName">John Smith</h5>
+                      <p class="text-muted mb-1" id="model_profiel_jobTitle">Intern</p>
+                      <p class="text-muted mb-1" id="model_profiel_department">Product Engineer</p>
                     </div>
-                   
-                  </div>
-                  <div class="col-lg-8">
-                    <div class="card mb-4">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-sm-3">
-                            <p class="mb-0">Full Name</p>
-                          </div>
-                          <div class="col-sm-9">
-                            <p class="text-muted mb-0">Johnatan Smith</p>
-                          </div>
-                        </div>
-                        
-                        <div class="row">
-                          <div class="col-sm-3">
-                            <p class="mb-0">Job Title</p>
-                          </div>
-                          <div class="col-sm-9">
-                            <p class="text-muted mb-0">example@example.com</p>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-sm-3">
-                            <p class="mb-0">Department</p>
-                          </div>
-                          <div class="col-sm-9">
-                            <p class="text-muted mb-0">example@example.com</p>
-                          </div>
-                        </div>
-                        
-                        <div class="row">
-                          <div class="col-sm-3">
-                            <p class="mb-0">Email</p>
-                          </div>
-                          <div class="col-sm-9">
-                            <p class="text-muted mb-0">example@example.com</p>
-                          </div>
-                        </div>
-                        
-                        <div class="row">
-                          <div class="col-sm-3">
-                            <p class="mb-0">Phone</p>
-                          </div>
-                          <div class="col-sm-9">
-                            <p class="text-muted mb-0">(097) 234-5678</p>
-                          </div>
-                        </div>
-                        
-                        <div class="row">
-                          <div class="col-sm-3">
-                            <p class="mb-0">Skype ID</p>
-                          </div>
-                          <div class="col-sm-9">
-                            <p class="text-muted mb-0">(098) 765-4321</p>
-                          </div>
-                        </div>
-                        
-                        
-                      </div>
-                    </div>
-                    
                   </div>
                 </div>
-            
+                <div class="col-lg-8">
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Full Name</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" id="model_full_name">Johnatan Smith</p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Job Title</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" id="model_jobTitle">example@example.com</p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Department</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" id="model_department">example@example.com</p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" id="model_email">example@example.com</p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Phone</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" id="model_phone">(097) 234-5678</p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Skype ID</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" id="model_skypeId">(098) 765-4321</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </section>
-          
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="profile_close">
               Close
             </button>
-            <button type="button" class="btn btn-primary">Edit</button>
+            <button type="button" class="btn btn-primary" onclick="edit_prfile();">Edit</button>
           </div>
         </div>
       </div>
