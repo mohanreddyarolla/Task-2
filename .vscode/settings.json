@@ -6,5 +6,7 @@
   "prettier.useTabs": false,
   "prettier.singleAttributePerLine": false,
   "editor.tabSize": 4,
-  "editor.detectIndentation": true
+  "editor.detectIndentation": true,
+  "prettier.endOfLine": "lf",
+  "prettier.proseWrap": "preserve"
 }

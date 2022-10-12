@@ -58,20 +58,9 @@
     <div id="alert">
       <div class="alert alert-success" id="alert_message" role="alert">...</div>
     </div>
-
+    <!-- <div id="alphabetsFilters"></div> -->
     <div id="content">
       <div id="all-filters">
-        <div id="open-filter-icon">
-          <button onclick="openFilter()">
-            <i class="fa-solid fa-filter"></i>
-          </button>
-        </div>
-        <div id="closs-filter-icon">
-          <button onclick="closeFilter()">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
         <div id="filters">
           <!-- Load from the local Storage -->
         </div>
@@ -79,6 +68,34 @@
 
       <div id="home">
         <div id="alphabert-search">
+          <div id="open_close_filters">
+            <div id="open-filter-icon" data-toggle="modal" data-target="#xyz">
+              <button>
+                <i class="fa-solid fa-filter"></i>
+              </button>
+            </div>
+
+            <div
+              class="modal fade"
+              id="xyz"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="xyzLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document" id="modal-dialog1">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="xyzLabel">Filters</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" id="filter2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- <button class="alpha-button"><i class="fa-solid fa-user"></i></button> -->
           <!-- creted buttons Dynamiclly using JS -->
         </div>
@@ -99,8 +116,8 @@
           <div id="filter-by">
             <label>Filter by</label>
             <select name="employee" id="select-employee">
-              <option value="prefferedName">Preffered Name</option>
               <option value="firstName">First Name</option>
+              <option value="prefferedName">Preffered Name</option>
               <option value="jobTitle">Job Title</option>
               <option value="department">Department</option>
             </select>
@@ -199,9 +216,7 @@
                         <div id="invalid_skypeId" class="invalid">Enter SkypeID</div>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label required"
-                          >Upload Image<span style="color: red"> *</span></label
-                        >
+                        <label class="form-label required">Upload Image</label>
                         <input type="file" class="form-control" id="uploadedImage" />
                       </div>
                     </form>
@@ -269,6 +284,7 @@
                         alt="avatar"
                         class="rounded-circle img-fluid"
                         style="width: 150px"
+                        id="model_profiel_image"
                       />
                       <h5 class="my-3" id="model_profiel_prefferedName">John Smith</h5>
                       <p class="text-muted mb-1" id="model_profiel_jobTitle">Intern</p>
@@ -371,3 +387,5 @@
     ></script>
   </body>
 </html>
+
+<!-- Modal -->

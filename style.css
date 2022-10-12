@@ -30,7 +30,8 @@ button {
 #alert,
 .invalid,
 #invalidWarning,
-#noProfileFound {
+#noProfileFound,
+#open_close_filters {
     display: none;
 }
 
@@ -151,11 +152,13 @@ header {
     background-color: rgb(187, 218, 250);
 }
 
-#filters .optionSelected {
+#filters .optionSelected,
+#filter2 .optionSelected {
     background-color: rgba(0, 177, 252, 255);
 }
 
-#filters .optionDeSelected {
+#filters .optionDeSelected,
+#filter2 .optionDeSelected {
     background-color: none;
 }
 
@@ -185,7 +188,19 @@ header {
     display: none;
 }
 
-#filters h4 {
+#modal-dialog1 {
+    margin-left: 0;
+    width: fit-content;
+    /* border: solid; */
+}
+
+#filter2 {
+    padding: 20px;
+    margin: 10px;
+}
+
+#filters h4,
+#filter2 h4 {
     font-size: 15px;
     font-weight: bold;
 }
@@ -448,18 +463,43 @@ header {
 
 }
 
+
+
 @media screen and (max-width:620px) {
+    /* #content {
+        display: block;
+    }
+
+    #alphabetsFilters {
+        display: flex;
+    } */
+
+    #open_close_filters {
+        display: block;
+    }
+
+
+    #alphabert-search .alphabets {
+        /* border: solid; */
+        display: none;
+    }
+
+
+    #search-and-save {
+        border: solid;
+        padding-left: 100px;
+    }
+
     #input::placeholder {
         display: block;
     }
 
-    #search p {
-        display: none;
-    }
+
 
     #search {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     #clear-btn {
@@ -486,7 +526,7 @@ header {
         height: 50px;
     }
 
-    #filters {
+    #all-filters {
         display: none;
     }
 
@@ -502,7 +542,11 @@ header {
 
 @media screen and (max-width:400px) {
     #logo img {
-        height: 40px;
+        height: 35px;
+    }
+
+    #search p {
+        display: none;
     }
 }
 
