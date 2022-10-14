@@ -177,7 +177,7 @@ header {
     /* position: fixed;
     backgdround-color: aliceblue; */
     height: 400px;
-    min-width: 275px;
+    min-width: 270px;
 
     overflow: scroll;
     scroll-margin-block: none;
